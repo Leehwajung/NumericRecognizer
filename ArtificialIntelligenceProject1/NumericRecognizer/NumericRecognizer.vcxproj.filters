@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="res\testdata.txt">
+    <Text Include="traindata.txt">
       <Filter>리소스 파일</Filter>
     </Text>
-    <Text Include="res\traindata.txt">
+    <Text Include="testdata.txt">
       <Filter>리소스 파일</Filter>
     </Text>
   </ItemGroup>
@@ -27,9 +27,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Layer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Neuron.cpp">
@@ -46,9 +43,6 @@
     <ClInclude Include="Object.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Layer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Neuron.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -59,6 +53,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="NeuralNetwork.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="global.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

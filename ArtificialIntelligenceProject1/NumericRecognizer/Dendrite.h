@@ -4,11 +4,13 @@
 
 class Neuron;
 
+/*
+ * 수상돌기 (뉴런 간 연결, weight)
+ */
 class Dendrite : public Object
 {
 public:
 	/* Constructor / Destructor */
-
 	// Constructor
 	Dendrite();
 
@@ -17,7 +19,6 @@ public:
 
 
 	/* Mutators */
-
 	// 초기 입력값 전달 (설정)
 	// 사전 조건: input는 초기 입력 데이터
 	// 사후 조건: 이전 뉴런은 없음 (nullptr)
@@ -28,20 +29,27 @@ public:
 	// 사후 조건: 입력 데이터는 prevNeuron의 f
 	void connect(Neuron* prevNeuron);
 
+	// Update W
+	void updateWeight(double w);
+
 
 	/* Accessers */
-
-	// get X
+	// Get X
 	double getInput();
 
-	// get W
+	// Get W
 	double getWeight();
 
 
 private:
 	/* Attributes */
-	double m_X;			// X (입력값 벡터, 이전 출력)
-	double m_W;			// W (가중치 벡터, Weight)
-	Neuron *mp_prev;	// 이전 층 뉴런 포인터
+	double m_X = 0;				// X (입력값 벡터, 이전 출력)
+	double m_W = 0;				// W (가중치 벡터, Weight)
+	Neuron *mp_prev = nullptr;	// 이전 층 뉴런 포인터
+
+
+	/* Supports */
+	bool mb_connected = false;
+	static bool mb_setRandomSeed;
 };
 
