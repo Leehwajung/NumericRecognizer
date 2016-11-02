@@ -3,6 +3,9 @@
 #include "Neuron.h"
 
 
+/*
+ * Neural Network
+ */
 class NeuralNetwork : public Object
 {
 public:

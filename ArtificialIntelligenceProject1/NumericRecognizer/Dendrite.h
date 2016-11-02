@@ -32,6 +32,9 @@ public:
 	// Update W
 	void updateWeight(double w);
 
+	// Set Nucleus
+	void setNucleus(Neuron* nucleus);
+
 
 	/* Accessers */
 	// Get X
@@ -40,11 +43,15 @@ public:
 	// Get W
 	double getWeight();
 
+	// Get Nucleus
+	Neuron* getNucleus();
+
 
 private:
 	/* Attributes */
 	double m_X = 0;				// X (입력값 벡터, 이전 출력)
 	double m_W = 0;				// W (가중치 벡터, Weight)
+	Neuron *mp_nucleus;			// 뉴런 본체
 	Neuron *mp_prev = nullptr;	// 이전 층 뉴런 포인터
 
 

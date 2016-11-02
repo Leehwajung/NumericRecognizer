@@ -10,13 +10,16 @@ NeuralNetwork::NeuralNetwork(const int width, const int layerSizes[])
 		m_layerSizes[i] = layerSizes[i];
 	}
 	
-	// 레이어별 뉴런을 생성하고 각 뉴런을 연결
+	// 레이어별 뉴런을 생성하고 각 뉴런을 연결 (Layer 0는 이전 층이 입력값이므로 입력할 때 연결)
 	m_neurons = new Layer[width];
-	m_neurons[0] = new Neuron[layerSizes[0]];	// Layer 0
-	for (int j = 1; j < width; j++) {
+	m_neurons[0] = new Neuron[layerSizes[0]];		// 0층 레이어
+	for (int j = 1; j < width; j++) {				// j층 레이어 (1층 이상)
 		m_neurons[j] = new Neuron[layerSizes[j]];
+		for (int i = 0; i < layerSizes[j - 1]; i++) {	// i번째 뉴런
+			m_neurons[j - 1][i].setAxon(layerSizes[j]);
+		}
 		// 모든 가중치 W 벡터를 random number로 초기화함.
-		for (int i = 0; i < layerSizes[j]; i++) {
+		for (int i = 0; i < layerSizes[j]; i++) {		// i번째 뉴런
 			m_neurons[j][i].connect(m_neurons[j - 1], layerSizes[j - 1]);
 		}
 	}
@@ -59,6 +62,7 @@ void NeuralNetwork::train(int** trainingData, int** d_tr,
 		inputData(input, inputSize);
 
 		computeForward();
+		computeBackward();
 	}
 
 	delete[] input;
@@ -88,14 +92,20 @@ void NeuralNetwork::computeForward()
 	// 각 층에 대한 s 및 f의 계산
 	for (int l = 0; l < m_width; l++) {	// 층 L에 대해서,
 		for (int i = 0; i < m_layerSizes[l]; i++) {	// 이 L 층의 뉴런 i에 대하여
-			// s와 f의 계산
-			m_neurons[l][i].computeF();
+			m_neurons[l][i].computeF();				// s와 f의 계산
 		}
 	}
 }
 
 void NeuralNetwork::computeBackward()
 {
+	/*** Backward 계산 ***/
+	// 각 층에 대한 delta의 계산
+	for (int l = m_width - 1; l >= 0; l--) {	// 층 L에 대해서,
+		for (int i = 0; i < m_layerSizes[l]; i++) {	// 각 뉴런 i에 대하여
+			m_neurons[l][i].computeDelta();			// delta의 계산
+		}
+	}
 }
 
 void NeuralNetwork::updateWeight()

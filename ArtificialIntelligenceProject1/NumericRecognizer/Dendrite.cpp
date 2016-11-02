@@ -57,7 +57,17 @@ double Dendrite::getWeight()
 	return m_W;
 }
 
+Neuron * Dendrite::getNucleus()
+{
+	return mp_nucleus;
+}
+
 void Dendrite::updateWeight(double w)
 {
 	m_W = w;
+}
+
+void Dendrite::setNucleus(Neuron* nucleus)
+{
+	mp_nucleus = nucleus;
 }

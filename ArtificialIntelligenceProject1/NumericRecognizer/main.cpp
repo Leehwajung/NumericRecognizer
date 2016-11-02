@@ -15,6 +15,7 @@ void main() {
 	fin.open("traindata.txt");
 	if (fin.fail()) {
 		cerr << "파일 열기 오류!" << endl;
+		exit(1);
 	}
 
 	// 모든 훈련 데이터를 가지고 있는 변수
