@@ -46,9 +46,11 @@ void NeuralNetwork::train(int** trainingData, int** d_tr,
 	int *input = new int[inputSize];	// 입력 신호를 가지고 있는 변수 INPUT
 	int *d = new int[outputSize];		// 정답 레이블을 가지는 변수 D
 
+	/*** 한 에폭(epoch)의 훈련 과정 ***/
 	for (int i = 0; i < dataSize; i++) {
 		// i 번째 훈련 예제에 의한 훈련임.
 
+		/*** 입력 신호 가져오기 ***/
 		// trainingData의 한 줄을 읽어서 input 변수를 채움.
 		for (int j = 0; j < inputSize; j++) {
 			input[j] = trainingData[i][j];
@@ -59,11 +61,10 @@ void NeuralNetwork::train(int** trainingData, int** d_tr,
 			d[j] = d_tr[i][j];
 		}
 
-		inputData(input, inputSize);
-
-		computeForward();
-		computeBackward();
-		updateWeights();
+		/*** 한 에폭(epoch)의 훈련 과정 ***/
+		// 훈련 진행
+		computeForward(input, inputSize);
+		computeBackward(d, outputSize);		// updateWeights() 작업을 포함함.
 	}
 
 	delete[] input;
@@ -79,16 +80,14 @@ void NeuralNetwork::recognize()
 {
 }
 
-void NeuralNetwork::inputData(int data[], const int size)
+void NeuralNetwork::computeForward(int input[], const int inputSize)
 {
+	// 입력값 설정
 	// 모든 가중치 W 벡터를 random number로 초기화함.
 	for (int i = 0; i < m_layerSizes[0]; i++) {
-		m_neurons[0][i].connect(data, size);
+		m_neurons[0][i].connect(input, inputSize);
 	}
-}
 
-void NeuralNetwork::computeForward()
-{
 	/*** Forward 계산 ***/
 	// 각 층에 대한 s 및 f의 계산
 	for (int l = 0; l < m_width; l++) {	// 층 L에 대해서,
@@ -98,8 +97,13 @@ void NeuralNetwork::computeForward()
 	}
 }
 
-void NeuralNetwork::computeBackward()
+void NeuralNetwork::computeBackward(int d[], const int dSize)
 {
+	// 요구값 설정
+	for (int i = 0; i < m_layerSizes[m_width - 1]; i++) {
+		m_neurons[m_width - 1][i].connect(d[i]);
+	}
+
 	/*** Backward 계산 ***/
 	// 각 층에 대한 delta의 계산
 	for (int l = m_width - 1; l >= 0; l--) {	// 층 L에 대해서,
@@ -107,6 +111,9 @@ void NeuralNetwork::computeBackward()
 			m_neurons[l][i].computeDelta();			// delta의 계산
 		}
 	}
+
+	/*** 가중치 갱신 작업 ***/
+	updateWeights();
 }
 
 void NeuralNetwork::updateWeights()

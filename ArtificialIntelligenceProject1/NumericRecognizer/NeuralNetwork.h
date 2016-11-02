@@ -29,14 +29,11 @@ public:
 	void recognize();
 
 private:
-	// 신호 입력
-	void inputData(int data[], const int size);
-
 	// Forward Propagation (Forward 계산)
-	void computeForward();
+	void computeForward(int input[], const int inputSize);
 
 	// Backward Propagation (Backward 계산)
-	void computeBackward();
+	void computeBackward(int d[], const int dSize);
 
 	// Weight Update
 	void updateWeights();
