@@ -39,7 +39,7 @@ private:
 	void computeBackward();
 
 	// Weight Update
-	void updateWeight();
+	void updateWeights();
 
 
 private:

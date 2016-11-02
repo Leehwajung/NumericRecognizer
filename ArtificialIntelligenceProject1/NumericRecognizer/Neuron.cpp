@@ -58,6 +58,14 @@ double Neuron::computeDelta()
 	return m_delta;
 }
 
+void Neuron::updateWeights()
+{
+	/*** 가중치 갱신 작업 ***/
+	for (int i = 0; i < m_dendritesSize; i++) {	// 해당 뉴런으로의 앞 층으로부터의 입력 신호 번호 (dummy 신호 포함)
+		m_dendrites[i].updateWeight();
+	}
+}
+
 void Neuron::connect(int input[], int inputSize)
 {
 	if (m_dendritesSize < inputSize) {

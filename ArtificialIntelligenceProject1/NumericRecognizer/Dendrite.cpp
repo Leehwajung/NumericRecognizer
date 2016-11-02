@@ -4,6 +4,8 @@
 #include <ctime>
 #include "Neuron.h"
 
+#define C	0.5
+
 
 bool Dendrite::mb_setRandomSeed = false;
 
@@ -20,6 +22,12 @@ Dendrite::Dendrite()
 
 Dendrite::~Dendrite()
 {
+}
+
+void Dendrite::updateWeight()
+{
+	/*** 가중치 갱신 작업 ***/
+	m_W = C * getNucleus()->getDelta() * getInput();	// dummy input에 대한 계산도 함께 대응.
 }
 
 void Dendrite::connect(double input)
@@ -60,11 +68,6 @@ double Dendrite::getWeight()
 Neuron * Dendrite::getNucleus()
 {
 	return mp_nucleus;
-}
-
-void Dendrite::updateWeight(double w)
-{
-	m_W = w;
 }
 
 void Dendrite::setNucleus(Neuron* nucleus)

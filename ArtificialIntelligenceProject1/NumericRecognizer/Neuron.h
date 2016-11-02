@@ -26,6 +26,9 @@ public:
 	// Delta 계산
 	double computeDelta();
 
+	// Weights 갱신
+	void updateWeights();
+
 	// 입력값 설정 (for Layer 0)
 	void connect(int input[], int inputSize);
 

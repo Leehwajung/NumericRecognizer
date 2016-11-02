@@ -63,6 +63,7 @@ void NeuralNetwork::train(int** trainingData, int** d_tr,
 
 		computeForward();
 		computeBackward();
+		updateWeights();
 	}
 
 	delete[] input;
@@ -108,6 +109,13 @@ void NeuralNetwork::computeBackward()
 	}
 }
 
-void NeuralNetwork::updateWeight()
+void NeuralNetwork::updateWeights()
 {
+	/*** 가중치 갱신 작업 ***/
+	// 각 층에 대한 처리
+	for (int l = 0; l < m_width; l++) {	// 층 번호
+		for (int i = 0; i < m_layerSizes[l]; i++) {	// 뉴런 번호
+			m_neurons[l][i].updateWeights();		// weight 갱신
+		}
+	}
 }
