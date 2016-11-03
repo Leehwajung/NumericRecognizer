@@ -20,5 +20,8 @@ const int M[NLayer] = { m0, m1, m2 };
 #define N_tr_examples	600	// 훈련 데이터 개수
 #define N_te_examples	90	// 테스트 데이터 개수
 
-// 학습율
+// 학습률
 #define C	0.5
+
+// 훈련 임계치
+#define TrainingTreshold	0.001

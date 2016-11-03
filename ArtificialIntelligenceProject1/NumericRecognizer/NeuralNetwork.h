@@ -1,8 +1,6 @@
 #pragma once
 #include "Neuron.h"
 
-#define DefaultTrainTreshold	0.001
-
 
 /*
  * Neural Network
@@ -21,7 +19,7 @@ public:
 	/* Operations */
 	// Neural Network »∆∑√ (Training Part)
 	int train(int** trainingData, int** d_tr, const int dataSize, 
-		const int inputSize, const double learningRate = C, const double trainTreshold = DefaultTrainTreshold);
+		const int inputSize, const double learningRate = C, const double trainTreshold = TrainingTreshold);
 
 	// ¥‹¿œ Epoch¿« »∆∑√
 	void trainEpoch(int** trainingData, int** d_tr, 

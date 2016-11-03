@@ -48,7 +48,7 @@ void main() {
 	char command;
 	do {
 		cout << "### Start Test ###" << endl;
-		NeuralNetwork nn(NLayer, M);
+		NeuralNetwork nn(NLayer, M);	// 1회 테스트마다 새롭게 생성
 		nn.setPrintingLog(false);
 		for (int i = 0; i < NLayer; i++) {
 			cout << "Layer " << i << " Neurons: " << M[i] << endl;
