@@ -64,6 +64,8 @@ void Neuron::updateWeights()
 	for (int i = 0; i < m_dendritesSize; i++) {	// 해당 뉴런으로의 앞 층으로부터의 입력 신호 번호 (dummy 신호 포함)
 		m_dendrites[i].updateWeight();
 	}
+	//mb_f = false;
+	//mb_delta = false;
 }
 
 void Neuron::connect(int input[], int inputSize)
@@ -82,7 +84,7 @@ void Neuron::connect(Layer layer, int layerSize)
 		generateDendrites(layerSize + 1);	// 앞 층의 뉴런의 수를 가져옴.
 	}
 	for (int i = 0; i < layerSize; i++) {
-		m_dendrites[i].connect(&layer[i]);			// 이전 뉴런들과 연결
+		m_dendrites[i].connect(&layer[i]);	// 이전 뉴런들과 연결
 		layer[i].connect(&m_dendrites[i]);	// 다음 뉴런과 연결 (이전 뉴런의 다음 뉴런은 현재 뉴런)
 	}
 	m_dendrites[layerSize].connect(DUMMY);	// 더미 입력 처리임!
@@ -160,7 +162,7 @@ double Neuron::getF()
 
 double Neuron::getDelta()
 {
-	if (m_delta) {
+	if (mb_delta) {
 		return m_delta;
 	}
 	else {

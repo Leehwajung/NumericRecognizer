@@ -27,7 +27,7 @@ Dendrite::~Dendrite()
 void Dendrite::updateWeight()
 {
 	/*** 가중치 갱신 작업 ***/
-	m_W = C * getNucleus()->getDelta() * getInput();	// dummy input에 대한 계산도 함께 대응.
+	m_W += C * getNucleus()->getDelta() * getInput();	// dummy input에 대한 계산도 함께 대응.
 }
 
 void Dendrite::connect(double input)

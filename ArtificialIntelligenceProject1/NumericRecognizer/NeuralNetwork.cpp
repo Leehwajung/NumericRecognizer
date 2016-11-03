@@ -40,35 +40,45 @@ NeuralNetwork::~NeuralNetwork()
 	}
 }
 
-void NeuralNetwork::train(int** trainingData, int** d_tr, 
+int NeuralNetwork::train(int** trainingData, int** d_tr,
+	const int dataSize, const int inputSize, const int outputSize, const double trainTreshold)
+{
+	int epoch = 0;
+	double avg_sq_error = 0;
+	do {
+		trainEpoch(trainingData, d_tr, dataSize, inputSize, outputSize);
+		avg_sq_error = getAvgSqErrorOfEpoch(trainingData, d_tr, dataSize, inputSize, outputSize);
+		epoch++;
+	} while (avg_sq_error > trainTreshold);
+	return epoch;
+}
+
+void NeuralNetwork::trainEpoch(int** trainingData, int** d_tr,
 	const int dataSize, const int inputSize, const int outputSize)
 {
-	int *input = new int[inputSize];	// 입력 신호를 가지고 있는 변수 INPUT
-	int *d = new int[outputSize];		// 정답 레이블을 가지는 변수 D
-
 	/*** 한 에폭(epoch)의 훈련 과정 ***/
 	for (int i = 0; i < dataSize; i++) {
 		// i 번째 훈련 예제에 의한 훈련임.
-
-		/*** 입력 신호 가져오기 ***/
-		// trainingData의 한 줄을 읽어서 input 변수를 채움.
-		for (int j = 0; j < inputSize; j++) {
-			input[j] = trainingData[i][j];
-		}
-
-		// d_tr의 한 줄을 읽어서 d 변수를 채움.
-		for (int j = 0; j < outputSize; j++) {
-			d[j] = d_tr[i][j];
-		}
-
-		/*** 한 에폭(epoch)의 훈련 과정 ***/
-		// 훈련 진행
-		computeForward(input, inputSize);
-		computeBackward(d, outputSize);		// updateWeights() 작업을 포함함.
+		computeForward(trainingData[i], inputSize);
+		computeBackward(d_tr[i], outputSize);		// updateWeights() 작업을 포함함.
 	}
+}
 
-	delete[] input;
-	delete[] d;
+double NeuralNetwork::getAvgSqErrorOfEpoch(int** trainingData, int** d_tr, 
+	const int dataSize, const int inputSize, const int outputSize)
+{
+	/*** 한 Epoch 후에 평균 에러 계산 ***/
+	double sum_sq_error = 0;
+	for (int t = 0; t < dataSize; t++) {
+		// t 번째 훈련 예제를 이용하여 시스템의 출력을 구해 error를 구함
+		computeForward(trainingData[t], inputSize);	// t번째 훈련 예를 투입하여 출력을 구함
+		// 최종 층의 출력을 이용하여 에러를 구함
+		for (int i = 0; i < outputSize; i++) {
+			double sub = d_tr[t][i] - m_neurons[outputSize - 1][i].getF();
+			sum_sq_error += sub * sub;
+		}
+	}
+	return sum_sq_error / (dataSize * outputSize);	// avg_sq_error
 }
 
 void NeuralNetwork::test(const int** testData, const int** d_te, 

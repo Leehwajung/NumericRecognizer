@@ -6,7 +6,7 @@
 typedef Neuron* Layer;	// Layer is ARRAY of Neurons
 
 /*
- * 뉴런 (TLU, Sigmoid Unit)
+ * 뉴런 (TLU)
  */
 class Neuron : public Object
 {

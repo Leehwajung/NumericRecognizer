@@ -39,21 +39,21 @@ void main() {
 	// 처음에 파일로부터 훈련 데이터를 읽어서 채움.
 	char next;
 	for (int i = 0; !fin.eof() && i < N_tr_examples; i++) {
-		fin >> next;
+		fin >> next;		// desire
 		for (int j = 0; j < m2; j++) {
 			d_tr[i][j] = 0;
 		}
 		d_tr[i][asciiToInt(next)] = 1;
-		fin >> next;	// $
+		fin >> next;		// $
 		for (int j = 0; j < N; j++) {
-			fin >> next;
+			fin >> next;	// input
 			trainData[i][j] = asciiToInt(next);
 		}
 	}
 	
 	NeuralNetwork nn(NLayer, M);
-	nn.train(trainData, d_tr, N_tr_examples, N, m2);
-
+	cout << nn.train(trainData, d_tr, N_tr_examples, N, m2);
+	//cout << nn.getAvgSqErrorOfEpoch(trainData, d_tr, N_tr_examples, N, m2);
 
 	// 훈련 데이터 출력
 	//for (int i = 0; i < N_tr_examples; i++) {
