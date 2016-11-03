@@ -1,5 +1,10 @@
 #include "NeuralNetwork.h"
 
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
 
 NeuralNetwork::NeuralNetwork(const int width, const int layerSizes[])
 	: m_width(width)
@@ -41,26 +46,29 @@ NeuralNetwork::~NeuralNetwork()
 }
 
 int NeuralNetwork::train(int** trainingData, int** d_tr,
-	const int dataSize, const int inputSize, const double trainTreshold)
+	const int dataSize, const int inputSize, const double learningRate, const double trainTreshold)
 {
 	int epoch = 0;
 	double avg_sq_error = 0;
+
 	do {
-		trainEpoch(trainingData, d_tr, dataSize, inputSize);
+		trainEpoch(trainingData, d_tr, dataSize, inputSize, learningRate);
 		avg_sq_error = getAvgSqErrorOfEpoch(trainingData, d_tr, dataSize, inputSize);
+		if (mb_logPrinting) cout << "\tEpoch " << epoch << ": Avarage Squared Error: " << avg_sq_error << endl;
 		epoch++;
 	} while (avg_sq_error > trainTreshold);
 	return epoch;
 }
 
 void NeuralNetwork::trainEpoch(int** trainingData, int** d_tr,
-	const int dataSize, const int inputSize)
+	const int dataSize, const int inputSize, const double learningRate)
 {
 	/*** 한 에폭(epoch)의 훈련 과정 ***/
 	for (int i = 0; i < dataSize; i++) {
 		// i 번째 훈련 예제에 의한 훈련임.
 		computeForward(trainingData[i], inputSize);
-		computeBackward(d_tr[i]);	// updateWeights() 작업을 포함함.
+		computeBackward(d_tr[i]);
+		updateWeights(learningRate);
 	}
 }
 
@@ -161,20 +169,22 @@ void NeuralNetwork::computeBackward(int d[])
 			m_neurons[l][i].computeDelta();			// delta의 계산
 		}
 	}
-
-	/*** 가중치 갱신 작업 ***/
-	updateWeights();
 }
 
-void NeuralNetwork::updateWeights()
+void NeuralNetwork::updateWeights(double learningRate)
 {
 	/*** 가중치 갱신 작업 ***/
 	// 각 층에 대한 처리
 	for (int l = 0; l < m_width; l++) {	// 층 번호
 		for (int i = 0; i < m_layerSizes[l]; i++) {	// 뉴런 번호
-			m_neurons[l][i].updateWeights();		// weight 갱신
+			m_neurons[l][i].updateWeights(learningRate);		// weight 갱신
 		}
 	}
+}
+
+void NeuralNetwork::setPrintingLog(bool set)
+{
+	mb_logPrinting = set;
 }
 
 int NeuralNetwork::getOutputSize()

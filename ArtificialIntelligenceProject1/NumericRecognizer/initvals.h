@@ -19,3 +19,6 @@ const int M[NLayer] = { m0, m1, m2 };
 // 데이터 개수
 #define N_tr_examples	600	// 훈련 데이터 개수
 #define N_te_examples	90	// 테스트 데이터 개수
+
+// 학습율
+#define C	0.5

@@ -58,11 +58,11 @@ double Neuron::computeDelta()
 	return m_delta;
 }
 
-void Neuron::updateWeights()
+void Neuron::updateWeights(double learningRate)
 {
 	/*** 가중치 갱신 작업 ***/
 	for (int i = 0; i < m_dendritesSize; i++) {	// 해당 뉴런으로의 앞 층으로부터의 입력 신호 번호 (dummy 신호 포함)
-		m_dendrites[i].updateWeight();
+		m_dendrites[i].updateWeight(learningRate);
 	}
 	//mb_f = false;
 	//mb_delta = false;

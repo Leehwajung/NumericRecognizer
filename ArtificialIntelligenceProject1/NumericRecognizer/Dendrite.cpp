@@ -1,10 +1,8 @@
 #include "Dendrite.h"
 
-#include <iostream>
-#include <ctime>
+#include <iostream>	// for srand(), rand() and RAND_MAX
+#include <ctime>	// for time()
 #include "Neuron.h"
-
-#define C	0.5
 
 
 bool Dendrite::mb_setRandomSeed = false;
@@ -28,10 +26,10 @@ Dendrite::~Dendrite()
 {
 }
 
-void Dendrite::updateWeight()
+void Dendrite::updateWeight(double learningRate)
 {
 	/*** 가중치 갱신 작업 ***/
-	m_W += C * getNucleus()->getDelta() * getInput();	// dummy input에 대한 계산도 함께 대응.
+	m_W += learningRate * getNucleus()->getDelta() * getInput();	// dummy input에 대한 계산도 함께 대응.
 }
 
 void Dendrite::connect(double input)

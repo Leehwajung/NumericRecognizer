@@ -1,5 +1,4 @@
 #pragma once
-#include "Object.h"
 #include "Neuron.h"
 
 #define DefaultTrainTreshold	0.001
@@ -8,7 +7,7 @@
 /*
  * Neural Network
  */
-class NeuralNetwork : public Object
+class NeuralNetwork
 {
 public:
 	/* Constructor / Destructor */
@@ -22,11 +21,11 @@ public:
 	/* Operations */
 	// Neural Network 훈련 (Training Part)
 	int train(int** trainingData, int** d_tr, const int dataSize, 
-		const int inputSize, const double trainTreshold = DefaultTrainTreshold);
+		const int inputSize, const double learningRate = C, const double trainTreshold = DefaultTrainTreshold);
 
 	// 단일 Epoch의 훈련
 	void trainEpoch(int** trainingData, int** d_tr, 
-		const int dataSize, const int inputSize);
+		const int dataSize, const int inputSize, const double learningRate = C);
 
 	// 단일 Epoch의 평균 에러 계산
 	double getAvgSqErrorOfEpoch(int** trainingData, 
@@ -50,10 +49,15 @@ private:
 
 	// Weight Update
 	// 모든 뉴런의 weights를 delta를 이용하여 갱신한다.
-	void updateWeights();
+	void updateWeights(double learningRate = C);
 
 
 public:
+	/* Mutator */
+	// 로그 출력 설정
+	void setPrintingLog(bool set);
+	
+
 	/* Accessors */
 	// Get Output Size
 	// 출력 데이터 개수는 마지막 레이어의 뉴런 개수와 같음.
@@ -68,5 +72,9 @@ private:
 	Neuron **m_neurons = nullptr;	// 뉴런
 	int m_width = 0;				// 레이어 개수
 	int *m_layerSizes = nullptr;	// 레이어별 뉴런 개수
+
+
+	/* Support */
+	bool mb_logPrinting = false;
 };
 

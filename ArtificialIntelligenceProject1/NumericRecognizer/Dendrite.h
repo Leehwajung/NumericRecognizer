@@ -1,5 +1,5 @@
 #pragma once
-#include "Object.h"
+#include "initvals.h"
 
 
 class Neuron;
@@ -7,7 +7,7 @@ class Neuron;
 /*
  * 수상돌기 (뉴런 간 연결, weight)
  */
-class Dendrite : public Object
+class Dendrite
 {
 public:
 	/* Constructor / Destructor */
@@ -20,7 +20,7 @@ public:
 
 	/* Operation */
 	// Update W
-	void updateWeight();
+	void updateWeight(double learningRate = C);
 
 
 	/* Mutators */

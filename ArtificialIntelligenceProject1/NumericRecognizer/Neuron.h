@@ -1,5 +1,4 @@
 #pragma once
-#include "Object.h"
 #include "Dendrite.h"
 
 
@@ -8,7 +7,7 @@ typedef Neuron* Layer;	// Layer is ARRAY of Neurons
 /*
  * 뉴런 (TLU)
  */
-class Neuron : public Object
+class Neuron
 {
 public:
 	/* Constructor / Destructor */
@@ -27,7 +26,7 @@ public:
 	double computeDelta();
 
 	// Weights 갱신
-	void updateWeights();
+	void updateWeights(double learningRate = C);
 
 	// 입력값 설정 (for Layer 0)
 	void connect(int input[], int inputSize);
