@@ -16,7 +16,11 @@ Dendrite::Dendrite()
 		srand(unsigned int(time(NULL)));
 		mb_setRandomSeed = true;
 	}
-	m_W = double(rand()) / double(RAND_MAX);	// 가중치 W 벡터를 Random Number로 초기화함.
+	int sign = 1;
+	if (rand() % 2) {
+		sign = -1;
+	}
+	m_W = sign * (double(rand()) / double(RAND_MAX));	// 가중치 W 벡터를 Random Number로 초기화함.
 	mp_prev = nullptr;
 }
 
